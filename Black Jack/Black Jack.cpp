@@ -30,13 +30,7 @@ std::vector<Cards> playerHand;
 std::vector<Cards> dealerHand;
 bool cardsInDeck[4][13];
 
-std::string colorText(char text, int textColor) {
-
-    // https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-
-    return "\033[" + std::to_string(textColor) + 'm' + text + "\033[0m";
-}
-
+//Turns the cardType into the different unicode symbols
 std::wstring Symbol(int symbolType)
 {
     //0 = spade, 1 = Heart, 2 = Clover, 3 = Diamond
@@ -63,6 +57,7 @@ std::wstring Symbol(int symbolType)
     }
 }
 
+//Turns the cardValue for example into J,Q,K or A;
 std::wstring CardValueConverter(int cardValue)
 {
     switch (cardValue + 1)
@@ -90,7 +85,7 @@ std::wstring CardValueConverter(int cardValue)
     }
 }
 
-
+//Calculate the players current value in their hand
 int playerPoints()
 {
     int aCounter{0};
@@ -126,6 +121,7 @@ int playerPoints()
     return  (score);
 };
 
+//Calculate the dealers current value in their hand
 int dealerPoints()
 {
     int aCounter{ 0 };
@@ -180,6 +176,7 @@ int dealerPoints()
     return  (score);
 };
 
+//Gives the player a random card from the deck
 void PlayerDrawCard()
 {
     int a; //Random card type
@@ -195,6 +192,7 @@ void PlayerDrawCard()
     playerHand.push_back({ a,b });
 }
 
+//Gives the dealer a random card from the deck
 void DealerDrawCard()
 {
     int a; //Random card type
@@ -232,6 +230,7 @@ void EndingScreen()
     exit(0);
 }
 
+//Used to output the main part of the game.
 void DrawDisplay()
 {
     //std::wcout << "\n You: $" << playerMoney << "            Dealer: " << dealerMoney << "\n\n";
@@ -507,6 +506,7 @@ void Menu()
     std::wcin.ignore(32767, '\n');
 }
 
+//This is where the player places their bet
 void BetScreen()
 {
     bool invalidInput{ false };
@@ -553,6 +553,7 @@ void BetScreen()
     dealerMoney -= betAmount;
 }
 
+//Puts all the cards back into the deck
 void ShuffleDeck()
 {
     for(int i = 0; i < 4; i++)
@@ -564,15 +565,8 @@ void ShuffleDeck()
     }
 }
 
-    //std::cout won't work here as long as the mode is set to _O_U16TEXT
-
-    //_setmode(_fileno(stdout), _O_TEXT);
-    // Used to convert the text input back into regular text
-
 int main(int) {
     _setmode(_fileno(stdout), _O_U16TEXT);
-    //drawCard(2, 11);
-
     srand(time(NULL));
 
     //Start the player off in the menu
@@ -665,7 +659,7 @@ int main(int) {
         getwchar();
         std::wcin.ignore(32767, '\n');
 
-        //Prepare for reset
+        //Reset values for a new game
         playerHand.clear();
         dealerHand.clear();
         gameEnded = false;
